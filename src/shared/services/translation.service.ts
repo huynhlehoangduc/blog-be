@@ -15,6 +15,9 @@ export class TranslationService {
     key: string,
     options: translateOptions = {},
   ): Promise<string> {
+    if (Object.keys(options).length === 0) {
+      options = { lang: 'en' };
+    }
     return this.i18n.translate(`translations.${key}`, options);
   }
 
