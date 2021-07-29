@@ -30,7 +30,7 @@ module.exports = {
     ],
     rules: {
         'simple-import-sort/imports': 'error',
-        'prettier/prettier': ['error', { singleQuote: true, trailingComma: 'all', tabWidth: 2 }],
+        'prettier/prettier': ['error', { singleQuote: true, trailingComma: 'all', tabWidth: 2, 'endOfLine': 'auto', }],
         '@typescript-eslint/camelcase': 'off',
         '@typescript-eslint/no-unused-vars-experimental': [
             'error',
