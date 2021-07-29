@@ -1,11 +1,12 @@
-import { Controller, Get, HttpCode, HttpStatus, Query, ValidationPipe } from '@nestjs/common';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { PostsPageOptionsDto } from './dto/posts-page-options.dto';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, Query, ValidationPipe } from '@nestjs/common';
+import { ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
+
 import { PageDto } from '../../common/dto/page.dto';
-import { PostDto } from './dto/post.dto';
-import { PostService } from './post.service';
 import { UUIDParam } from '../../decorators/http.decorators';
 import { UserDto } from '../user/dto/user-dto';
+import { PostDto } from './dto/post.dto';
+import { PostsPageOptionsDto } from './dto/posts-page-options.dto';
+import { PostService } from './post.service';
 
 @Controller('posts')
 @ApiTags('posts')
@@ -35,5 +36,16 @@ export class PostController {
   })
   getPost(@UUIDParam('id') id: string): Promise<PostDto> {
     return this.postService.getPost(id);
+  }
+
+  @Post()
+  @HttpCode(HttpStatus.OK)
+  @ApiOkResponse({
+    type: PostDto,
+    description: 'Successfully Registered',
+  })
+  async createPost(@Body() postDto: PostDto): Promise<PostDto> {
+    const createPost = await this.postService.createPost(postDto);
+    return createPost.toDto<typeof PostDto>();
   }
 }

@@ -17,8 +17,8 @@ export class PostEntity extends AbstractEntity<PostDto> {
   @Column({ nullable: true, type: 'timestamp without time zone' })
   publishAt: Date;
 
-  @Column({ nullable: true })
-  author: number;
+  @Column({ nullable: true, type: 'uuid' })
+  author: string;
 
   @Column({ nullable: true, type: 'integer' })
   minutesRead: number;
