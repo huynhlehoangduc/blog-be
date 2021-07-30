@@ -1,12 +1,15 @@
-import { Injectable } from '@nestjs/common';
-import { PostRepository } from './post.repository';
-import { ValidatorService } from '../../shared/services/validator.service';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import type { FindConditions } from 'typeorm';
+import type { UpdateResult } from 'typeorm/query-builder/result/UpdateResult';
+
+import type { PageDto } from '../../common/dto/page.dto';
 import { AwsS3Service } from '../../shared/services/aws-s3.service';
-import { FindConditions } from 'typeorm';
-import { PostEntity } from './post.entity';
-import { PostDto } from './dto/post.dto';
-import { PostsPageOptionsDto } from './dto/posts-page-options.dto';
-import { PageDto } from '../../common/dto/page.dto';
+import { ValidatorService } from '../../shared/services/validator.service';
+import type { PostDto } from './dto/post.dto';
+import type { PostFormDto } from './dto/post-form.dto';
+import type { PostsPageOptionsDto } from './dto/posts-page-options.dto';
+import type { PostEntity } from './post.entity';
+import { PostRepository } from './post.repository';
 
 @Injectable()
 export class PostService {
@@ -25,14 +28,18 @@ export class PostService {
     return this.postRepository.findOne(findData);
   }
 
-  async createPost(postDto: PostDto): Promise<PostEntity> {
-    const post = this.postRepository.create(postDto);
+  async createPost(postFormDto: PostFormDto): Promise<PostEntity> {
+    const post = this.postRepository.create(postFormDto);
     return this.postRepository.save(post);
   }
 
-  /*async updateUser(id: string, postDto: PostDto): Promise<PostEntity> {
-    return this.postRepository.update(id, postDto);
-  }*/
+  async updatePost(id: string, postFormDto: PostFormDto): Promise<PostDto> {
+    const post = await this.findOne({ id });
+    if (!post) {
+      throw new NotFoundException();
+    }
+    return this.postRepository.save({ ...post, ...postFormDto });
+  }
 
   async getPosts(
     pageOptionsDto: PostsPageOptionsDto,
