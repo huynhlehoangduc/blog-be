@@ -30,13 +30,17 @@ export async function bootstrap(): Promise<NestExpressApplication> {
   const app = await NestFactory.create<NestExpressApplication>(
     AppModule,
     new ExpressAdapter(),
-    { cors: true },
   );
+
+  const whitelist = ['http://localhost:4200'];
+  app.enableCors({
+    origin: whitelist,
+  });
   app.enable('trust proxy'); // only if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
   app.use(helmet());
   app.use(
     RateLimit({
-      windowMs: 15 * 60 * 1000, // 15 minutes
+      windowMs: 1 * 60 * 1000, // 1 minutes
       max: 100, // limit each IP to 100 requests per windowMs
     }),
   );
