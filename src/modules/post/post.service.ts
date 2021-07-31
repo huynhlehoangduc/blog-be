@@ -59,4 +59,8 @@ export class PostService {
 
     return postEntity.toDto();
   }
+
+  async deletePost(id: string): Promise<unknown> {
+    return this.postRepository.delete(id);
+  }
 }

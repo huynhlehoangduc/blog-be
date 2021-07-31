@@ -38,12 +38,12 @@ export async function bootstrap(): Promise<NestExpressApplication> {
   });
   app.enable('trust proxy'); // only if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
   app.use(helmet());
-  app.use(
+  /* app.use(
     RateLimit({
       windowMs: 1 * 60 * 1000, // 1 minutes
       max: 100, // limit each IP to 100 requests per windowMs
     }),
-  );
+  ); */
   app.use(compression());
   app.use(morgan('combined'));
 

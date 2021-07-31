@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, NotFoundException, Post, Put, Query, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, NotFoundException, Post, Put, Query, ValidationPipe } from '@nestjs/common';
 import { ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { PageDto } from '../../common/dto/page.dto';
@@ -60,4 +60,13 @@ export class PostController {
   async updatePost(@UUIDParam('id') id: string, @Body() postFormDto: PostFormDto): Promise<PostDto> {
     return this.postService.updatePost(id, postFormDto);
   }
+
+  @Delete(':id')
+  @HttpCode(HttpStatus.OK)
+  @ApiOkResponse({
+    description: 'Delete post',
+  })
+  async deletePost(@UUIDParam('id') id: string): Promise<unknown> {
+    return this.postService.deletePost(id);
+}
 }
