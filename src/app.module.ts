@@ -14,12 +14,14 @@ import { PostModule } from './modules/post/post.module';
 import { UserModule } from './modules/user/user.module';
 import { ApiConfigService } from './shared/services/api-config.service';
 import { SharedModule } from './shared/shared.module';
+import { FileManagementModule } from './modules/file-management/file-management.module';
 
 @Module({
   imports: [
     AuthModule,
     UserModule,
     PostModule,
+    FileManagementModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),

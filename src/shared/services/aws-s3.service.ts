@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import AWS from 'aws-sdk';
+import type { ManagedUpload } from 'aws-sdk/lib/s3/managed_upload';
 import mime from 'mime-types';
 
 import type { IFile } from '../../interfaces/IFile';
@@ -19,6 +20,8 @@ export class AwsS3Service {
     const options: AWS.S3.Types.ClientConfiguration = {
       apiVersion: awsS3Config.bucketApiVersion,
       region: awsS3Config.bucketRegion,
+      accessKeyId: this.configService.awsS3Config.bucketAccessKeyId,
+      secretAccessKey: this.configService.awsS3Config.bucketSecretKey,
     };
 
     this.s3 = new AWS.S3(options);
@@ -39,5 +42,21 @@ export class AwsS3Service {
       .promise();
 
     return key;
+  }
+
+  async uploadImageGetUrl(file: IFile): Promise<ManagedUpload.SendData> {
+    const fileName = this.generatorService.fileName(
+      <string>mime.extension(file.mimetype),
+    );
+    const key = 'images/' + fileName;
+
+    return this.s3
+      .upload({
+        Bucket: this.configService.awsS3Config.bucketName,
+        Body: file.buffer,
+        ACL: 'public-read',
+        Key: key,
+      })
+      .promise();
   }
 }
