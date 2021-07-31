@@ -23,9 +23,7 @@ export class FileManagementController {
   @HttpCode(HttpStatus.OK)
   @ApiOkResponse({ description: 'Post img success' })
   @ApiFile({ name: 'file' })
-  postImgS3(@UploadedFile() file: IFile): Observable<string> {
-    return from(this.fileManagementService.postImgS3(file)).pipe(
-      map((obj) => obj.Location),
-    );
+  postImgS3(@UploadedFile() file: IFile): Observable<ManagedUpload.SendData> {
+    return from(this.fileManagementService.postImgS3(file));
   }
 }
