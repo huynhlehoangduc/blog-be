@@ -26,5 +26,8 @@ export class PostEntity extends AbstractEntity<PostDto> {
   @Column({ nullable: true })
   thumbnail: string;
 
+  @Column({ nullable: true })
+  description: string;
+
   dtoClass = PostDto;
 }

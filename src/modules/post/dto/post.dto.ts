@@ -28,6 +28,10 @@ export class PostDto extends AbstractDto {
   author: string;
 
   @ApiPropertyOptional()
+  @IsString()
+  description: string;
+
+  @ApiPropertyOptional()
   @IsNumber()
   minutesRead: number;
 
@@ -43,5 +47,6 @@ export class PostDto extends AbstractDto {
     this.author = post.author;
     this.minutesRead = post.minutesRead;
     this.thumbnail = post.thumbnail;
+    this.description = post.description;
   }
 }

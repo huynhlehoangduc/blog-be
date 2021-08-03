@@ -16,6 +16,11 @@ export class PostFormDto {
   content: string;
 
   @ApiPropertyOptional()
+  @IsString()
+  @IsNotEmpty()
+  description: string;
+
+  @ApiPropertyOptional()
   @IsBoolean()
   publish: boolean;
 
