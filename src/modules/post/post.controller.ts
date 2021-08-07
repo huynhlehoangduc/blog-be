@@ -7,10 +7,10 @@ import {
   HttpStatus,
   Post,
   Put,
-  Query,
+  Query, UseGuards,
   ValidationPipe,
 } from '@nestjs/common';
-import { ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { PageDto } from '../../common/dto/page.dto';
 import { UUIDParam } from '../../decorators/http.decorators';
@@ -19,6 +19,7 @@ import { PostDto } from './dto/post.dto';
 import { PostFormDto } from './dto/post-form.dto';
 import { PostsPageOptionsDto } from './dto/posts-page-options.dto';
 import { PostService } from './post.service';
+import { AuthGuard } from '../../guards/auth.guard';
 
 @Controller('posts')
 @ApiTags('posts')
@@ -27,6 +28,8 @@ export class PostController {
 
   @Get()
   @HttpCode(HttpStatus.OK)
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Get post list',
@@ -41,6 +44,8 @@ export class PostController {
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Get users list',
@@ -52,6 +57,8 @@ export class PostController {
 
   @Post()
   @HttpCode(HttpStatus.OK)
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse({
     type: PostDto,
     description: 'Create post',
@@ -63,6 +70,8 @@ export class PostController {
 
   @Put(':id')
   @HttpCode(HttpStatus.OK)
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse({
     type: PostDto,
     description: 'Update post',
@@ -76,6 +85,8 @@ export class PostController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse({
     description: 'Delete post',
   })
