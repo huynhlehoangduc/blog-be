@@ -32,7 +32,7 @@ export async function bootstrap(): Promise<NestExpressApplication> {
     new ExpressAdapter(),
   );
 
-  const whitelist = ['http://localhost:4200'];
+  const whitelist = ['http://localhost:4200', 'http://localhost:4201'];
   app.enableCors({
     origin: whitelist,
   });
